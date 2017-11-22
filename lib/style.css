@@ -1,0 +1,35 @@
+
+
+@import url("//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css");
+
+* {
+	transition: 0.2s;
+}
+:root {
+	--color-bg: white;
+	--color-fg: black;
+}
+
+html {
+	background-color: var(--color-bg);
+	color: var(--color-fg);
+}
+
+body {
+	;
+}
+
+main {
+	min-height: 100vh;
+}
+
+main > .preloader-wrapper {
+	margin: auto;
+	display: block;
+	box-sizing: border-box;
+	margin-top: 20%;
+}
+
+a.disabled {
+	color: gray !important;
+}
