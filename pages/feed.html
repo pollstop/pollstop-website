@@ -8,7 +8,7 @@
 <script type="text/javascript">
 	this.vote = function(id, elem) {
 		let disabled = elem.classList.contains("disabled")
-		return fetch(_app.make([
+		fetch(_app.make([
 			"choices",
 			id,
 			disabled ? "unvote" : "vote",
@@ -27,24 +27,33 @@
 			}
 			return json
 		})
+		return false
 	}
 	http.get(_app.make([
-			"polls",
-			"latest",
-		]), function(data) {
+		"polls",
+		"latest",
+	]), function(data) {
 		let self = document.querySelector("main")
-		self.innerHTML = ""
+		self.innerHTML = (`
+			<div class="row">
+				<div class="col m4" ></div>
+				<div class="col m4" ></div>
+				<div class="col m4" ></div>
+			</div>
+		`)
+		self = self.querySelectorAll(".row .col")
 		data.forEach(function(poll, i) {
 			let options = ""
 			for(let i=0; i<poll.choices.length; i++) {
 				let self = poll.choices[i]
-				options += `<a _class="waves-effect waves-light btn" href="#"
-					onclick="vote(${self.id}, this)" >${self.text}</a>`
+				options += `<a href="#"	onclick="return vote(${self.id}, this)"
+					class="white red-text text-lighten-1 waves-effect waves-light btn"
+					>${self.text}</a>`
 				continue
 			}
-			self.innerHTML += (`
-				<div class="col s12 m6">
-					<div class="card blue-grey darken-1">
+			self[i%3].innerHTML += (`
+				<div class="poll">
+					<div class="card red lighten-1">
 						<div class="card-content white-text">
 							<span class="card-title">${poll.title}</span>
 							<p>${poll.description}</p>
@@ -57,8 +66,9 @@
 			`)
 			return
 		})
-		self.innerHTML += (`
-			<a href="#.1" >next</a>
+		document.querySelector("main").innerHTML += (`
+			<div class="divider"></div>
+			<a class="btn right" href="#!.1" >next</a>
 		`)
 		return
 	})
