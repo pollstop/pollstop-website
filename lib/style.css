@@ -21,7 +21,7 @@ body {
 
 main {
 	min-height: 100vh;
-	padding-top: 32px;
+	padding: 32px 0;
 }
 
 main > .preloader-wrapper {
@@ -39,7 +39,7 @@ a.disabled {
 	display: block;
 }
 .poll .card .card-action A {
-	margin: 0 4px;
+	margin: 4px;
 }
 .poll .card .card-action A.disabled {
 	pointer-events: auto;
@@ -50,3 +50,8 @@ main form.col.s12.m6.l4 {
 	float: none !important;
 	clear: both !important;
 }
+
+@media (max-width: 1440px) and (min-width: 1024px) {
+	main.container { width: 80%; }
+}
+

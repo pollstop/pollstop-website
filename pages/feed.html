@@ -36,9 +36,10 @@
 		let self = document.querySelector("main")
 		self.innerHTML = (`
 			<div class="row">
-				<div class="col m4" ></div>
-				<div class="col m4" ></div>
-				<div class="col m4" ></div>
+				<div class="col s12 m6 l4 xl3" ></div>
+				<div class="col s12 m6 l4 xl3" ></div>
+				<div class="col s12 m6 l4 xl3" ></div>
+				<div class="col s12 m6 l4 xl3" ></div>
 			</div>
 		`)
 		self = self.querySelectorAll(".row .col")
@@ -51,13 +52,15 @@
 					>${self.text}</a>`
 				continue
 			}
-			self[i%3].innerHTML += (`
+			self[i%4].innerHTML += (`
 				<div class="poll">
 					<div class="card red lighten-1">
 						<div class="card-content white-text">
 							<span class="card-title">${poll.title}</span>
 							<p>${poll.description}</p>
+							<p data-user=${poll.owner} ></p>
 						</div>
+						<div class=divider></div>
 						<div class="card-action">
 							${options}
 						</div>
@@ -68,8 +71,18 @@
 		})
 		document.querySelector("main").innerHTML += (`
 			<div class="divider"></div>
+			<a class="btn center" href="#!poll" >create</a>
 			<a class="btn right" href="#!.1" >next</a>
 		`)
+		document.querySelector("main").querySelectorAll("[data-user]").forEach(function(e) {
+			return http.get(_app.make([
+				"users",
+				e.dataset.user,
+			]), function(data, resp) {
+				e.innerHTML = "by: " + data.display_name
+				return
+			})
+		})
 		return
 	})
 </script>
