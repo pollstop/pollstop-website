@@ -74,15 +74,19 @@
 			<a class="btn center" href="#!poll" >create</a>
 			<a class="btn right" href="#!.1" >next</a>
 		`)
-		document.querySelector("main").querySelectorAll("[data-user]").forEach(function(e) {
-			return http.get(_app.make([
-				"users",
-				e.dataset.user,
-			]), function(data, resp) {
-				e.innerHTML = "by: " + data.display_name
-				return
+		if(token()) {
+			document.querySelector("main").querySelectorAll("[data-user]").forEach(function(e) {
+				return http.get(_app.make([
+					"users",
+					e.dataset.user,
+				]), function(data, resp) {
+					if(typeof data === "object") {
+						e.innerHTML = "by: " + data.display_name
+					}
+					return
+				})
 			})
-		})
+		}
 		return
 	})
 </script>
