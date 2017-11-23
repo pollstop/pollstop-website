@@ -1,0 +1,127 @@
+
+<script type="text/javascript">
+	memory.clear()
+	this.pages = {
+		selection: true,
+		handler: function(data, resp, callback) {
+			if(typeof data === "string") {
+				if(callback) {
+					return callback(null, resp)
+				}
+				return resp
+			}
+			token(data.token)
+			memory.id = data.id
+			if(callback) {
+				return callback(data, null)
+			}
+			return data
+		},
+		false: function(obj, callback) {
+			if(!obj) {
+				document.querySelector("#name").style.visibility = "hidden"
+				document.querySelector("#toggle").innerHTML = "Create Account"
+				document.querySelector("#action").value = "Sign In"
+				if(callback) {
+					return callback()
+				}
+				return
+			}
+			return http.post(_app.make("auth/token"), {
+				email: obj.mail,
+				password: obj.pass,
+			}, function(data, resp) {
+				return this.handler(data, resp, callback)
+			})
+		},
+		true: function(obj, callback) {
+			if(!obj) {
+				document.querySelector("#name").style.visibility = "visible"
+				document.querySelector("#toggle").innerHTML = "I have an Account"
+				document.querySelector("#action").value = "Sign Up"
+				return
+			}
+			return http.post(_app.make("auth"), {
+				email: obj.mail,
+				password: obj.pass,
+				display_name: obj.name,
+			}, function(data, resp) {
+				return this.handler(data, resp, callback)
+			})
+		},
+		switch: function(elem) {
+			this.selection = !this.selection
+			this[this.selection](null, function() {
+				loadContent(document.querySelector(".navbar-fixed"))
+				return
+			})
+			elem.parentNode.parentNode.querySelector("#error")
+				.parentNode.parentNode.style.visibility = "hidden"
+			elem.parentNode.parentNode.querySelector("#error").innerHTML = ""
+			return false
+		},
+		action: function(elem) {
+			let form = document.querySelector("form")
+			let data = {
+				name: form.querySelector("#name").querySelector("input").value,
+				mail: form.querySelector("#mail").querySelector("input").value,
+				pass: form.querySelector("#pass").querySelector("input").value,
+			}
+			return this[this.selection](data, function(result, response) {
+				if(response) {
+					form.querySelector("#error").parentNode.parentNode
+						.style.visibility = "visible"
+					return response.text().then(function(text) {
+						let json = JSON.parse(text)
+						form.querySelector("#error").innerHTML = (
+							`${json.message || JSON.stringify(json, null, 4)}`
+						) + "\n" + result
+					})
+				}
+				loadContent(document.querySelector(".navbar-fixed"))
+				window.location.hash = "#!feed"
+				return
+			})
+		},
+	}
+	pages.switch(document.querySelector("form"))
+	this.handler = pages.handler
+</script>
+
+<div class="row valign-wrapper" style="height: 90vh;">
+	<form class="col s12 m6 l4" onsubmit="return pages.action(this)" >
+		<div class="row" id="mail" >
+			<div class="col s12" >
+				Mail:
+				<div class="input-field " >
+					<input placeholder="john@doe.com" type="email" class="validate" autofocus >
+				</div>
+			</div>
+		</div>
+		<div class="row" id="pass" >
+			<div class="col s12" >
+				Password:
+				<div class="input-field " >
+					<input placeholder="s3cr3tpassw0rd" type="password" class="validate" >
+				</div>
+			</div>
+		</div>
+		<div class="row" id="name" >
+			<div class="col s12" >
+				Name:
+				<div class="input-field " >
+					<input placeholder="John Doe" type="text" class="validate" >
+				</div>
+			</div>
+		</div>
+		<div class=row >
+			<input type=submit id=action class="btn" ></input>
+			<button id=toggle onclick="return pages.switch(this)" class="btn"></button>
+		</div>
+		<div class="row" >
+			<div class="card-panel white-text red lighten-1" >
+				<pre id=error ></pre>
+			</div>
+		</div>
+	</form>
+</div>
