@@ -1,8 +1,10 @@
 <div class="container">
-	<a href="#" class="img logo brand-logo" ><i class="material-icons">Cloud</i>Pollstop</a>
+	<a href="#" class="img logo brand-logo" ><i class="material-icons">logo</i>Pollstop</a>
 	<ul class="right hide-on-med-and-down">
 		<li><a href="#!feed" >Feed</a></li>
-		<li><a href="#!profile" data-typeof-token="string" >Profile</a></li>
+		<li><a href="#!tags" >Tags</a></li>
+		<li ><a data-typeof-token="string" href="#!profile" >Profile</a></li>
+		<li ><a href="#!login" id=login ></a></li>
 	</ul>
 </div>
 
@@ -14,4 +16,5 @@
 		}
 		return
 	})
+	document.querySelector("#login").innerHTML = token() ? "SignOut" : "Sign In"
 </script>
