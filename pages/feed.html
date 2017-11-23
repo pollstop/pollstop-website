@@ -61,8 +61,8 @@
 							<p data-user=${poll.owner} ></p>
 						</div>
 						<div class=divider></div>
-						<div class="card-action" data-typeof-token="string" >
-							${options}
+						<div class="card-action" >
+							${token() ? options : "<a href='#!login' >login to vote</a>"}
 						</div>
 					</div>
 				</div>
@@ -82,13 +82,6 @@
 				e.innerHTML = "by: " + data.display_name
 				return
 			})
-		})
-		document.querySelectorAll("[data-typeof-token]").forEach(function(elem) {
-			let token = this.token()
-			if(elem.dataset["typeof-token"] !== typeof token) {
-				elem.remove()
-			}
-			return
 		})
 		return
 	})
