@@ -21,6 +21,7 @@ body {
 
 main {
 	min-height: 100vh;
+	padding-top: 32px;
 }
 
 main > .preloader-wrapper {
@@ -32,4 +33,20 @@ main > .preloader-wrapper {
 
 a.disabled {
 	color: gray !important;
+}
+
+.poll {
+	display: block;
+}
+.poll .card .card-action A {
+	margin: 0 4px;
+}
+.poll .card .card-action A.disabled {
+	pointer-events: auto;
+}
+
+main form.col.s12.m6.l4 {
+	margin: auto !important;
+	float: none !important;
+	clear: both !important;
 }
