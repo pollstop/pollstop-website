@@ -16,7 +16,7 @@ html {
 }
 
 body {
-	;
+	
 }
 
 main {
@@ -54,6 +54,11 @@ main form.col.s12.m6.l4 {
 	margin: auto !important;
 	float: none !important;
 	clear: both !important;
+}
+.project{
+	margin-left: 65px;
+	font-size: 20px;
+	text-align: center;
 }
 
 @media (max-width: 1440px) and (min-width: 1024px) {
