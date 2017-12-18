@@ -1,0 +1,20 @@
+<div class="container">
+	<a href="#" class="img logo brand-logo hide-on-small-only"> <img src="https://s20.postimg.org/5ml6j9avh/Poolstop.png" alt=""></a> <a class="project" href="">Poolstop</a>
+	<ul class="right">
+		<li><a href="#!feed" >Feed</a></li>
+		<li><a href="#!tags" >Tags</a></li>
+		<li ><a data-typeof-token="string" href="#!profile" >Profile</a></li>
+		<li ><a href="#!login" id="login" ></a></li>
+	</ul>
+</div>
+
+<script type="text/javascript">
+	document.querySelectorAll("[data-typeof-token]").forEach(function(elem) {
+		let token = this.token()
+		if(elem.dataset["typeof-token"] !== typeof token) {
+			elem.remove()
+		}
+		return
+	})
+	document.querySelector("#login").innerHTML = token() ? "SignOut" : "Sign In"
+</script>

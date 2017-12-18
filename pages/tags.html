@@ -1,0 +1,25 @@
+<div class="preloader-wrapper active">
+	<div class="spinner-layer spinner-red-only">
+		<div class="circle-clipper left"><div class="circle"></div></div>
+		<div class="gap-patch"><div class="circle"></div></div>
+		<div class="circle-clipper right"><div class="circle"></div></div>
+	</div>
+</div>
+<script type="text/javascript">
+	http.get(_app.make([
+		"tags",
+	]), function(data) {
+		let self = document.querySelector("main")
+		self.innerHTML = (`
+			<div class="row" ></div>
+		`)
+		self = self.children[0]
+		data.results.forEach(function(tag) {
+			self.innerHTML += (`
+				<a href="#!tags.${tag.id}" class="chip col" >${tag.name}</a>
+			`)
+			return
+		})
+		return
+	})
+</script>
