@@ -11,7 +11,7 @@
 <script type="text/javascript">
 	document.querySelectorAll("[data-typeof-token]").forEach(function(elem) {
 		let token = this.token()
-		if(elem.dataset["typeof-token"] !== typeof token) {
+		if(elem.dataset["typeofToken"] !== typeof token) {
 			elem.remove()
 		}
 		return

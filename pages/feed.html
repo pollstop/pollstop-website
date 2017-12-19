@@ -58,7 +58,7 @@
 						<div class="card-content white-text">
 							<span class="card-title">${poll.title}</span>
 							<p>${poll.description}</p>
-							<p data-user=${poll.owner} ></p>
+							<a data-user=${poll.owner} href="#!profile/${poll.owner}" ></a>
 						</div>
 						<div class=divider></div>
 						<div class="card-action" >
@@ -72,7 +72,6 @@
 		document.querySelector("main").innerHTML += (`
 			<div class="divider"></div>
 			<a class="btn center" href="#!make" >create</a>
-			<a class="btn right" href="#!.1" >next</a>
 		`)
 		if(token()) {
 			document.querySelector("main").querySelectorAll("[data-user]").forEach(function(e) {
