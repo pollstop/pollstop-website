@@ -53,19 +53,22 @@
 				continue
 			}
 			self[i%4].innerHTML += (`
-				<div class="poll">
+				<a class="poll block white-text" href="#!poll.${poll.id}">
 					<div class="card red lighten-1">
 						<div class="card-content white-text">
 							<span class="card-title">${poll.title}</span>
 							<p>${poll.description}</p>
-							<a data-user=${poll.owner} href="#!profile/${poll.owner}" ></a>
+							<a data-user=${poll.owner}
+								href="#!profile.${poll.owner}"
+								class="red-text text-lighten-4 right"
+								></a>
 						</div>
 						<div class=divider></div>
 						<div class="card-action" >
 							${token() ? options : "<a href='#!login' >login to vote</a>"}
 						</div>
 					</div>
-				</div>
+				</a>
 			`)
 			return
 		})
@@ -80,7 +83,7 @@
 					e.dataset.user,
 				]), function(data, resp) {
 					if(typeof data === "object") {
-						e.innerHTML = "by: " + data.display_name
+						e.innerHTML = data.display_name || `user#${data.id}`
 					}
 					return
 				})
