@@ -12,7 +12,7 @@
 	]), function(data, resp) {
 		let self = document.querySelector("main")
 		self.innerHTML = (`
-			${JSON.stringify(data, null, 4)}
+			info ${JSON.stringify(data, null, 4)}
 		`)
 		return
 	})
