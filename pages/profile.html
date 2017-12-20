@@ -6,40 +6,108 @@
 	</div>
 </div>
 <script type="text/javascript">
+	function timeFunction(base, str, alt) {
+		let time = new Date(new Date() - new Date(base) || null)
+		console.log(time)
+		switch(true) {
+			case time.getTime()/1000 > 31536000:
+				time = `${str} ${time.getTime()/31536000000} years`
+				break
+			case time.getMonth() > 0:
+				time = `${str} ${time.getMonth()} months`
+				break
+			case time.getDate() > 7:
+				time = `${str} ${Math.round(time.getDate()/7)} weeks`
+				break
+			case time.getDate() > 0:
+				time = `${str} ${time.getDate()} days`
+				break
+			case time.getHours() > 0:
+				time = `${str} ${time.getHours()} hours`
+				break
+			default:
+				time = `${alt} ${new Date(base).toDateString()}`
+				break
+		}
+		return time
+	}
 	http.get(_app.make([
 		"users",
-		memory.id,
+		parts && parts[0] || memory.id,
 	]), function(data, resp) {
 		let self = document.querySelector("main")
+		let time = timeFunction(data.date_joined, "member for", "member since")
 		self.innerHTML = (`
 			<div class="row">
-				<div class="col s12 m6">
-					<div class="card red darken-1">
+				<div class="col s12 m6 l4 profile">
+					<div class="card red lighten-1 center-align">
 						<div class="card-content white-text">
-							<div class="card-image">
-								<div data-img="http://sunfieldfarm.org/wp-content/uploads/2014/02/profile-placeholder.png"
+							<div class="card-image valign-wrapper">
+								<div data-img="//sunfieldfarm.org/wp-content/uploads/2014/02/profile-placeholder.png"
 								class="responsive-img" ></div>
 							</div>
-							<span class="card-title">Profile</span>
-							<p>User Name : ${data.display_name}</p>
-							<p>Bio : ${data.bio}</p>
+							<div class=section >
+								<span class="card-title">
+									${data.display_name || "john doe*"}
+									<sub class="right red-text text-lighten-3" >
+										(#${data.id || 0})
+									</sub>
+								</span>
+								<p>${time || ""}</p><p>${data.bio || ""}</p>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col s12 m6">
-					<div class="card">
-						<div class="card-content">
-							<span class="card-title">Votes</span>
-							<p>Your Feeds</p>
-							<p>${data.votes && data.votes[0] || "none"}</p>
-						</div>
-					</div>
-				</div>
+			<div class="row" id=votes >
+				<div class="col s12 m6 l4 xl3" ></div>
+				<div class="col s12 m6 l4 xl3" ></div>
+				<div class="col s12 m6 l4 xl3" ></div>
+				<div class="col s12 m6 l4 xl3" ></div>
 			</div>
-			${JSON.stringify(data)}	
+			<!-- ${JSON.stringify(data)} -->
 		`)
+		let votes = self.querySelectorAll("#votes .col")
+		data.votes && data.votes.forEach(function(id, i) {
+			http.get(_app.make([
+				"choices",
+				id,
+			]), function(vote) {
+				if(!vote.poll) {
+					return
+				}
+				http.get(_app.make([
+					"polls",
+					vote.poll,
+				]), function(data) {
+					votes[i%4].innerHTML += (`
+							<div class="hoverable card">
+								<div class="card-content">
+									<sup class="right">
+										${timeFunction(
+											data.date_created,
+											"", ""
+										)}
+									</sup>
+									<span class="card-title">${data.title}</span>
+									<p>${data.description || ""}</p>
+								</div>
+								<div class=divier ></div>
+								<div class="card-action right-align" >
+									<a class="inline-block orange-text"
+										href="#!poll.${data.id}" >
+										${vote.text}
+									</a>
+								</div>
+							</div>
+							<!-- ${JSON.stringify(data)} -->
+					`)
+					return
+				})
+				return
+			})
+			return
+		})
 		_lazy.images(self)
 		return
 	})
