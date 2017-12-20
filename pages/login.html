@@ -27,12 +27,13 @@
 				}
 				return
 			}
-			return http.post(_app.make("auth/token"), {
+			http.post(_app.make("auth/token"), {
 				email: obj.mail,
 				password: obj.pass,
 			}, function(data, resp) {
 				return this.handler(data, resp, callback)
 			})
+			return false
 		},
 		true: function(obj, callback) {
 			if(!obj) {
@@ -41,13 +42,14 @@
 				document.querySelector("#action").value = "Sign Up"
 				return
 			}
-			return http.post(_app.make("auth"), {
+			http.post(_app.make("auth"), {
 				email: obj.mail,
 				password: obj.pass,
 				display_name: obj.name,
 			}, function(data, resp) {
 				return this.handler(data, resp, callback)
 			})
+			return false
 		},
 		switch: function(elem) {
 			this.selection = !this.selection
