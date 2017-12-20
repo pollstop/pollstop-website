@@ -75,7 +75,7 @@
 						.style.visibility = "visible"
 					return response.text().then(function(text) {
 						let json = JSON.parse(text)
-						form.querySelector("#error").innerHTML = (
+						return form.querySelector("#error").innerHTML = (
 							`${json.message || JSON.stringify(json, null, 4)}`
 						) + "\n" + result
 					})
