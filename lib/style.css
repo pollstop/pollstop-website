@@ -69,6 +69,16 @@ main form.col.s12.m6.l4 {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: contain;
-	min-height: 280px;
+	min-height: 33vh;
 	width: 100%;
+}
+
+.row .col.profile {
+	float: none;
+	margin: auto;
+}
+
+.img {
+	background-repeat: no-repeat;
+	background-position: center;
 }
