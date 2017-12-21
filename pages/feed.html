@@ -47,7 +47,7 @@
 			let options = ""
 			for(let i=0; i<poll.choices.length; i++) {
 				let self = poll.choices[i]
-				options += `<a href="#"	onclick="return vote(${self.id}, this)"
+				options += `<a href="#"	data-chid=${self.id} onclick="return vote(${self.id}, this)"
 					class="white red-text text-lighten-1 waves-effect waves-light btn"
 					>${self.text}</a>`
 				continue
@@ -64,7 +64,7 @@
 								></a>
 						</div>
 						<div class=divider></div>
-						<div class="card-action" >
+						<div class="card-action center-align" >
 							${token() ? options : "<a href='#!login' >login to vote</a>"}
 						</div>
 					</div>
@@ -77,6 +77,19 @@
 			<a class="btn center" href="#!make" >create</a>
 		`)
 		if(token()) {
+			http.get(_app.make([
+				"users",
+				memory.id,
+			]), function(data) {
+				data.votes.forEach(function(vote) {
+					let elem = document.querySelector(`[data-chid="${vote}"]`)
+					if(elem) {
+						elem.classList.add("disabled")
+					}
+					return
+				})
+				return
+			})
 			document.querySelector("main").querySelectorAll("[data-user]").forEach(function(e) {
 				return http.get(_app.make([
 					"users",
