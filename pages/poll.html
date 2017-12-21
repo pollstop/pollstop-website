@@ -3,6 +3,9 @@
 		<div class="circle-clipper left"><div class="circle"></div></div>
 		<div class="gap-patch"><div class="circle"></div></div>
 		<div class="circle-clipper right"><div class="circle"></div></div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"> 
+		</script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
 	</div>
 </div>
 <script type="text/javascript">
@@ -11,9 +14,45 @@
 		parts[0],
 	]), function(data, resp) {
 		let self = document.querySelector("main")
+
 		self.innerHTML = (`
+			<div class ="mycanvas">
+				<canvas id="myChart" width="400" height="400"></canvas> 
+			</div>
 			 ${JSON.stringify(data, null, 4)}
 		`)
+
+		let myChart = document.getElementById('myChart').getContext('2d');
+		let pollChart = new Chart(myChart,{
+			type: 'bar',
+			data: {
+				labels: [ owner.text ],
+				datasets: [{
+					borderColor: [
+						'rgba(255,99,132,1)',
+					],
+					borderColor: [
+						'rgba(255,99,132,1)',
+					],
+					data: [ owner.votes ]
+				}]
+			},
+			options:{
+				title:{
+					display: true,
+					text: poll.title,
+					text: poll.description
+				},
+				scales: {
+					xAxes: [{
+						gridLines: {
+							offsetGridLines: true
+						}
+					}]
+				}
+			}
+		});
+
 		return
 	})
 </script>
