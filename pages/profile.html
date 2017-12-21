@@ -40,7 +40,7 @@
 		self.innerHTML = (`
 			<div class="row">
 				<div class="col s12 m6 l4 profile">
-					<div class="card red lighten-1 center-align">
+					<div class="card red lighten-1 center-align animated fadeIn">
 						<div class="card-content white-text">
 							<div class="card-image valign-wrapper">
 								<div data-img="//sunfieldfarm.org/wp-content/uploads/2014/02/profile-placeholder.png"
@@ -81,7 +81,7 @@
 					vote.poll,
 				]), function(data) {
 					votes[i%4].innerHTML += (`
-							<div class="hoverable card">
+							<div class="hoverable card animated flipInX">
 								<div class="card-content">
 									<sup class="right">
 										${timeFunction(

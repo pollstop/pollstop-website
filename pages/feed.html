@@ -48,24 +48,27 @@
 			for(let i=0; i<poll.choices.length; i++) {
 				let self = poll.choices[i]
 				options += `<a href="#"	data-chid=${self.id} onclick="return vote(${self.id}, this)"
-					class="white red-text text-lighten-1 waves-effect waves-light btn"
+					class="white red-text text-lighten-1 waves-effect waves-light btn animated flipInX"
+					style="display: block; width:100%; margin: 4px;"
 					>${self.text}</a>`
 				continue
 			}
 			self[i%4].innerHTML += (`
 				<a class="poll block white-text" href="#!poll.${poll.id}">
-					<div class="hoverable card red lighten-1">
-						<div class="card-content white-text">
-							<span class="card-title">${poll.title}</span>
-							<p>${poll.description}</p>
-							<a data-user=${poll.owner}
-								href="#!profile.${poll.owner}"
-								class="red-text text-lighten-4 right"
-								></a>
-						</div>
-						<div class=divider></div>
-						<div class="card-action center-align" >
-							${token() ? options : "<a href='#!login' >login to vote</a>"}
+					<div class="hoverable card horizontal red lighten-1">
+						<!--div class="card-image" ><canvas></canvas></div-->
+						<div class="card-stacked" >
+							<div class="card-content white-text animated fadeIn">
+								<span class="card-title">${poll.title}</span>
+								<p>${poll.description}</p>
+								<a data-user=${poll.owner}
+									href="#!profile.${poll.owner}"
+									class="red-text text-lighten-4 right" >&nbsp;</a>
+							</div>
+							<div class=divider></div>
+							<div class="card-action center-align" >
+								${token() ? options : "<a href='#!login' >login to vote</a>"}
+							</div>
 						</div>
 					</div>
 				</a>
