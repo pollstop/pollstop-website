@@ -13,8 +13,38 @@
 		"polls",
 		parts[0],
 	]), function(data, resp) {
+		this.vote = function(id, elem) {
+			let disabled = elem.classList.contains("disabled")
+			fetch(_app.make([
+				"choices",
+				id,
+				disabled ? "unvote" : "vote",
+			]), {
+				headers: http.handlers.head(),
+				method: "put",
+			}).then(function(resp) {
+				return resp.json()
+			}).then(function(json) {
+				for(let i=0; i<elem.parentNode.childElementCount; i++) {
+					elem.parentNode.children[i].classList.remove("disabled")
+					continue
+				}
+				if(!disabled) {
+					elem.classList.add("disabled")
+				}
+				return json
+			})
+			return false
+		}
+		let options = ""
+		for(let i=0; i<data.choices.length; i++) {
+			let self = data.choices[i]
+			options += `<a href="#"	onclick="return vote(${self.id}, this)"
+				class="white red-text text-lighten-1 waves-effect waves-light btn"
+				>${self.text}</a>`
+			continue
+		}
 		let self = document.querySelector("main")
-
 		self.innerHTML = (`
 			<div class="row center-align" ><h2 >${data.title}</h2></div>
 			<div class="row" >
@@ -33,6 +63,9 @@
 						</div>
 					</div>
 				</div>
+			</div>
+			<div class="row center-align">
+				${token() ? options : "<a href='#!login' >login to vote</a>"}
 			</div>
 			<div class="row" ><h4>Description</h4></div>
 			<div class="row" >
