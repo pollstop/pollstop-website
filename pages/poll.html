@@ -9,10 +9,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-	http.get(_app.make([
-		"polls",
-		parts[0],
-	]), function(data, resp) {
+	let update = function(data, resp) {
 		this.vote = function(id, elem) {
 			let disabled = elem.classList.contains("disabled")
 			fetch(_app.make([
@@ -32,6 +29,7 @@
 				if(!disabled) {
 					elem.classList.add("disabled")
 				}
+				loadPage()
 				return json
 			})
 			return false
@@ -128,5 +126,12 @@
 			})
 		}
 		return
-	})
+	}
+	function loadPage() {
+		return http.get(_app.make([
+			"polls",
+			parts[0],
+		]), update)
+	}
+	loadPage()
 </script>
