@@ -11,7 +11,7 @@
 		console.log(time)
 		switch(true) {
 			case time.getTime()/1000 > 31536000:
-				time = `${str} ${time.getTime()/31536000000} years`
+				time = `${str} ${Math.round(time.getTime()/31536000000)} years`
 				break
 			case time.getMonth() > 0:
 				time = `${str} ${time.getMonth()} months`
